@@ -3,7 +3,8 @@
 
 int main(void)
 {
-	_printf("A char inside a sentence: %c. Did it work?\n", 'F');
+	int n = _printf("%c", '\0');
+	_printf("%d\n", n);
 	
 	return (0);
 }

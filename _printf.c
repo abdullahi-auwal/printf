@@ -17,23 +17,22 @@ int _printf(const char *format, ...)
 		{'s', strp},
 		{'d', intp},
 		{'i', intp},
-		{'0', NULL}
+		{'\0', NULL}
 	};
 
-	int i, k, n, j, r, count, n_start;
+	int i, k, n, j, count, n_start;
 	va_list args;
-	char *n_buff;
+	char *n_buff, str[2];
 
 	n = 0;
 	count = 0;
 	va_start(args, format);
 	if (format == NULL)
-		return (-1);
+		return (0);
 	while (format[n] != '\0')
 	{
 		k = 0;
 		j = 0;
-		r = 0;
 		for (i = n; (format[i] != '%') && (format[i] != '\0'); i++)
 			;
 		if (i > n)
@@ -55,22 +54,28 @@ int _printf(const char *format, ...)
 		if (format[n] == '%')
 		{
 			n++;
-			if (format[n] == '%')
+			if ((format[n] != 'c') && (format[n] != 's') &&
+					(format[n] != 'd') && (format[n] != 'i'))
 			{
-				write(1, "%", 1);
-				count = count + 1;
+				if (format[n] == '\0')
+					return (0);
+				str[0] = '%';
+				str[1] = format[n];
+				write(1, &str, 2);
+				count = count + 2;
 			}
-			while (spec[k].c != '0')
+			else
 			{
-				if (format[n] == spec[k].c)
-					spec[k].func(args, &count);
-				k++;
+				while (spec[k].c != '\0')
+				{
+					if (format[n] == spec[k].c)
+						spec[k].func(args, &count);
+					k++;
+				}
+				if (format[n] == '\0')
+					write(1, "\0", 2);
 			}
-			if (!((format[n] == '%') && (format[n - 1] == '%')))
-				r = checker(format[n]);
 		}
-		if (r == - 1)
-			break;
 		if (format[n] == '\0')
 			break;
 		n++;
@@ -80,22 +85,9 @@ int _printf(const char *format, ...)
 }
 
 /**
- * checker - checks if we have valid format specifier
- * @c: the format specifier
- *
- * Return: -1 if not valid
- */
-int checker(char c)
-{
-	if ((c != 'c') && (c != 's') && (c != 'd') && (c != 'i'))
-		return (-1);
-	else
-		return (0);
-}
-
-/**
  * cp - write a character to the terminal
  * @args: pointer to the variadic argument (character)
+ * @count: keep count of characters printed
  */
 void cp(va_list args, int *count)
 {
@@ -117,11 +109,13 @@ void cp(va_list args, int *count)
 /**
  * strp - write a string to the terminal
  * @args: pointer to the variadic argument (string)
+ * @count: keep count of characters printed
  */
 void strp(va_list args, int *count)
 {
 	int i;
 	char *str = va_arg(args, char *);
+
 	if (str == NULL)
 	{
 		str = "(null)";
