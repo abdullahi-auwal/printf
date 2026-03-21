@@ -1,15 +1,9 @@
-#include "../printf.h"
+#include "../main.h"
+#include <stddef.h>
 
 int main(void)
 {
-	/*char *str = "!";
-	char c = '!';
-	int n = 2840;*/
-	int n;
-	int a = 78;
-
-	n = _printf("Hello %d\n", a);
-	_printf("%d\n", n);
+	_printf("%");
 	
 	return (0);
 }
