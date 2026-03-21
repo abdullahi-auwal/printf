@@ -33,6 +33,7 @@ int _printf(const char *format, ...)
 	{
 		k = 0;
 		j = 0;
+		r = 0;
 		for (i = n; (format[i] != '%') && (format[i] != '\0'); i++)
 			;
 		if (i > n)
@@ -66,7 +67,7 @@ int _printf(const char *format, ...)
 				k++;
 			}
 			if (!((format[n] == '%') && (format[n - 1] == '%')))
-				r = checker(*format);
+				r = checker(format[n]);
 		}
 		if (r == - 1)
 			break;
