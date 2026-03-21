@@ -59,10 +59,18 @@ int _printf(const char *format, ...)
 			{
 				if (format[n] == '\0')
 					return (0);
-				str[0] = '%';
-				str[1] = format[n];
-				write(1, &str, 2);
-				count = count + 2;
+				if (format[n] != '%')
+				{
+					str[0] = '%';
+					str[1] = format[n];
+					write(1, &str, 2);
+					count = count + 2;
+				}
+				else
+				{
+					write(1, "%", 1);
+					count = count + 1;
+				}
 			}
 			else
 			{
