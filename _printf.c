@@ -20,11 +20,12 @@ int _printf(const char *format, ...)
 		{'0', NULL}
 	};
 
-	int i, k, n, j;
+	int i, k, n, j, count, n_start;
 	va_list args;
 	char *n_buff;
 
 	n = 0;
+	count = 0;
 	va_start(args, format);
 	while (format[n] != '\0')
 	{
@@ -37,23 +38,29 @@ int _printf(const char *format, ...)
 			n_buff = malloc(sizeof(char) * (i - n));
 			if (n_buff == NULL)
 				return (-1);
+			n_start = i - n;
 			while (i != n)
 			{
 				n_buff[j] = format[n];
 				n++;
 				j++;
 			}
-			write(1, n_buff, n);
+			write(1, n_buff, n_start);
+			count = count + n_start;
+			free(n_buff);
 		}
 		if (format[n] == '%')
 		{
 			n++;
 			if (format[n] == '%')
+			{
 				write(1, "%", 1);
+				count = count + 1;
+			}
 			while (spec[k].c != '0')
 			{
 				if (format[n] == spec[k].c)
-					spec[k].func(args);
+					spec[k].func(args, &count);
 				k++;
 			}
 		}
@@ -62,8 +69,7 @@ int _printf(const char *format, ...)
 		n++;
 	}
 	va_end(args);
-	free(n_buff);
-	return (0);
+	return (count);
 }
 
 
@@ -71,7 +77,7 @@ int _printf(const char *format, ...)
  * cp - write a character to the terminal
  * @args: pointer to the variadic argument (character)
  */
-void cp(va_list args)
+void cp(va_list args, int *count)
 {
 	int i;
 	char *str;
@@ -85,13 +91,14 @@ void cp(va_list args)
 	for (i = 0; str[i] != '\0'; i++)
 		;
 	write(1, str, i);
+	*count = *count + i;
 }
 
 /**
  * strp - write a string to the terminal
  * @args: pointer to the variadic argument (string)
  */
-void strp(va_list args)
+void strp(va_list args, int *count)
 {
 	int i;
 	char *str = va_arg(args, char *);
@@ -99,6 +106,7 @@ void strp(va_list args)
 	for (i = 0; str[i] != '\0'; i++)
 		;
 	write(1, str, i);
+	*count = *count + i;
 }
 
 

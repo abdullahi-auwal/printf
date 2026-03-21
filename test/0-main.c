@@ -2,11 +2,14 @@
 
 int main(void)
 {
-	char *str = "World!";
+	/*char *str = "!";
 	char c = '!';
-	int n = 2840;
+	int n = 2840;*/
+	int n;
+	int a = 78;
 
-	_printf("Hello %s%c x%d\n", str, c, n);
+	n = _printf("Hello %d\n", a);
+	_printf("%d\n", n);
 	
 	return (0);
 }

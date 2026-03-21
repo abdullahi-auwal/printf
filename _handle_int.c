@@ -5,7 +5,7 @@
  * intp - retrieve int value and print it
  * @args: pointer to the int value
  */
-void intp(va_list args)
+void intp(va_list args, int *count)
 {
 	int a, i, remains, last_digit;
 	char arr[12];
@@ -21,6 +21,7 @@ void intp(va_list args)
 	if (n == 0)
 	{
 		write(1, "0", 1);
+		*count = *count + 1;
 		return;
 	}
 	if (n < 0)
@@ -43,4 +44,5 @@ void intp(va_list args)
 	else
 		i++;
 	write(1, &arr[i], 11 - (i - 1));
+	*count = *count + (11 - (i - 1));
 }
