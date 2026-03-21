@@ -18,5 +18,6 @@ int _printf(const char *format, ...);
 void cp(va_list args, int *count);
 void strp(va_list args, int *count);
 void intp(va_list args, int *count);
+int checker(char c);
 
 #endif /*PRINTF*/

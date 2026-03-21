@@ -20,13 +20,15 @@ int _printf(const char *format, ...)
 		{'0', NULL}
 	};
 
-	int i, k, n, j, count, n_start;
+	int i, k, n, j, r, count, n_start;
 	va_list args;
 	char *n_buff;
 
 	n = 0;
 	count = 0;
 	va_start(args, format);
+	if (format == NULL)
+		return (-1);
 	while (format[n] != '\0')
 	{
 		k = 0;
@@ -63,7 +65,11 @@ int _printf(const char *format, ...)
 					spec[k].func(args, &count);
 				k++;
 			}
+			if (!((format[n] == '%') && (format[n - 1] == '%')))
+				r = checker(*format);
 		}
+		if (r == - 1)
+			break;
 		if (format[n] == '\0')
 			break;
 		n++;
@@ -72,6 +78,19 @@ int _printf(const char *format, ...)
 	return (count);
 }
 
+/**
+ * checker - checks if we have valid format specifier
+ * @c: the format specifier
+ *
+ * Return: -1 if not valid
+ */
+int checker(char c)
+{
+	if ((c != 'c') && (c != 's') && (c != 'd') && (c != 'i'))
+		return (-1);
+	else
+		return (0);
+}
 
 /**
  * cp - write a character to the terminal
@@ -102,6 +121,10 @@ void strp(va_list args, int *count)
 {
 	int i;
 	char *str = va_arg(args, char *);
+	if (str == NULL)
+	{
+		str = "(null)";
+	}
 
 	for (i = 0; str[i] != '\0'; i++)
 		;
