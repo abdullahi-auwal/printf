@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	int n = _printf("%s%c%c%c%s%%%s%c", "Loading ", '.', '.', '.', "99", " Please wait", '\n');
+	int n = _printf("%");
 	_printf("%d\n", n);
 	
 	return (0);

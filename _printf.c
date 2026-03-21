@@ -57,13 +57,13 @@ int _printf(const char *format, ...)
 			if ((format[n] != 'c') && (format[n] != 's') &&
 					(format[n] != 'd') && (format[n] != 'i'))
 			{
-				if (format[n] == '\0')
-					return (0);
+				if ((format[n] == '%') && format[n + 1] == '\0') 
+					return (count);
 				if (format[n] != '%')
 				{
 					str[0] = '%';
 					str[1] = format[n];
-					write(1, &str, 2);
+					write(1, str, 2);
 					count = count + 2;
 				}
 				else
@@ -80,8 +80,6 @@ int _printf(const char *format, ...)
 						spec[k].func(args, &count);
 					k++;
 				}
-				if (format[n] == '\0')
-					write(1, "\0", 2);
 			}
 		}
 		if (format[n] == '\0')
@@ -99,19 +97,10 @@ int _printf(const char *format, ...)
  */
 void cp(va_list args, int *count)
 {
-	int i;
-	char *str;
-	char arr[2];
 	char c = va_arg(args, int);
 
-	arr[0] = c;
-	arr[1] = '\0';
-	str = arr;
-
-	for (i = 0; str[i] != '\0'; i++)
-		;
-	write(1, str, i);
-	*count = *count + i;
+	write(1, &c, 1);
+	*count = *count + 1;
 }
 
 /**
