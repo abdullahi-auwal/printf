@@ -1,12 +1,15 @@
-#ifndef PRINTF_H
-#define PRINTF_H
+#ifndef MAIN_H
+#define MAIN_H
 
 #include <stdarg.h>
 
 /**
- * struct flag - structure that allows me to call the appropriate func
- * @c: format specifier
- * @func: appropriate function pointer
+ * struct flag - Maps a format specifier to a function
+ * @c: Format specifier character
+ * @func: Pointer to function that handles the specifier
+ *
+ * Associates each format specifier with
+ * its corresponding handler function
  */
 struct flag
 {
@@ -18,5 +21,7 @@ int _printf(const char *format, ...);
 void cp(va_list args, int *count);
 void strp(va_list args, int *count);
 void intp(va_list args, int *count);
+void _handleformatspec(const char *format, int *n, int *count, va_list args);
+void _printnormalchar(const char *format, int *n, int *i, int *count);
 
-#endif /*PRINTF*/
+#endif /* MAIN_H */
