@@ -70,7 +70,7 @@ int _printf(const char *format, ...)
 				}
 				if (format[n] == '%')
 				{
-					write(1, "%%", 2);
+					write(1, "%", 1);
 					count = count + 1;
 				}
 			}
