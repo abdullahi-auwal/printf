@@ -57,8 +57,10 @@ int _printf(const char *format, ...)
 			if ((format[n] != 'c') && (format[n] != 's') &&
 					(format[n] != 'd') && (format[n] != 'i'))
 			{
-				if ((format[n] == '%') && format[n + 1] == '\0') 
+				if (format[n] == '\0')
+				{
 					return (count);
+				}
 				if (format[n] != '%')
 				{
 					str[0] = '%';
@@ -66,9 +68,9 @@ int _printf(const char *format, ...)
 					write(1, str, 2);
 					count = count + 2;
 				}
-				else
+				if (format[n] == '%')
 				{
-					write(1, "%", 1);
+					write(1, "%%", 2);
 					count = count + 1;
 				}
 			}
