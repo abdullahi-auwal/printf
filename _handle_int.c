@@ -7,10 +7,12 @@
  */
 void intp(va_list args, int *count)
 {
-	int a, i, remains, last_digit;
+	int a, i, last_digit;
+	long int n, remains;
 	char arr[12];
 
-	int n = va_arg(args, int);
+	a = 0;
+	n = va_arg(args, int);
 
 	for (i = 0; i < 13; i++)
 		arr[i] = '0';

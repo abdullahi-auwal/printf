@@ -2,13 +2,14 @@
 #define MAIN_H
 
 #include <stdarg.h>
+#include <limits.h>
 
 /**
  * struct flag - Maps a format specifier to a function
  * @c: Format specifier character
  * @func: Pointer to function that handles the specifier
  *
- * Associates each format specifier with
+ * Description: Associates each format specifier with
  * its corresponding handler function
  */
 struct flag
